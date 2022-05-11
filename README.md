@@ -38,6 +38,16 @@
 
 ## 프로젝트 세팅 절차
 
+```text
+주의 : 반드시 iris폴더 아래에 secrets.json 파일을 생성해야합니다.
+```
+
+```json
+{
+    "SECRET_KEY": "배포해드린 secrets.json 파일 키값"
+}
+```
+
 1. `git pull origin main`을 통해 레포지토리 변경 사항들을 비주얼 스튜디오 코드로 (로컬) 가져옵니다.
 2. 비주얼 스튜디오 코드에서 터미널을 열고, `python -m venv myvenv`로 파이썬 가상환경을 설치합니다.
     - 현재 `.gitignore` 파일에 `myvenv`라는 이름의 폴더를 목록에 추가해두었기 때문에 깃에서 해당 폴더는 인식하지 않습니다.
