@@ -7,7 +7,8 @@ class PredResults(models.Model):
     petal_length = models.FloatField()
     petal_width = models.FloatField()
     classification = models.CharField(max_length=30)
-    ml_algorithm = models.CharField(max_length=30, default= "KNeighborsClassifier(n_neighbors=1)")
+    ml_algorithm = models.CharField(max_length=30, default= "default")
+    ml_param = models.CharField(max_length=30, default= "default")
 
     def __str__(self):
-        return self.classification
+        return f'{self.classification} : {self.ml_algorithm} | {self.ml_param}'
