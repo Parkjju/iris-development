@@ -14,3 +14,7 @@ print(model.__dict__)
 # print(model[1])
 
 print(str(model))
+
+print(model._y)
+
+print(model._x)

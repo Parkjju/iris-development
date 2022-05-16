@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import pandas as pd
+from sklearn.model_selection import train_test_split
+
 from .models import PredResults
+
 
 # your project absolute path
 path = "/Users/yoohajun/PycharmProjects/iris_development"
@@ -22,6 +25,16 @@ def predict_chances(request):
 
         select_ml = str(request.POST.get('select_ml'))
 
+        # df = pd.read_csv("./iris.csv")
+        #
+        # # print(df)
+        #
+        # # Split into training data and test data
+        # X = df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']]
+        # y = df['classification']
+
+        # # Create training and testing vars, It’s usually around 80/20 or 70/30.
+        # X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.20, random_state=1)
 
         # Unpickle model using pandas
         # model = pd.read_pickle(path + "/new_model.pkl")
@@ -36,9 +49,13 @@ def predict_chances(request):
         # dt_model = pd.read_pickle(path + "/dt_model.pkl")
 
         ml_param = str(model)
+        input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
 
         # Make prediction
-        result = model.predict([[sepal_length, sepal_width, petal_length, petal_width]])
+        result = model.predict(input_data)
+
+        score = model.score(input_data, result)
+        print(score)
 
         classification = result[0] # result의 0번째 인덱스에 저장이 되어 있음
 
