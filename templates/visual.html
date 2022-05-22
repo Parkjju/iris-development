@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block main %}
-
-<!DOCTYPE html>
+<h1>Scatter Plot (sepal length, petal length) </h1>
 
 <!-- Load d3.js -->
 <!-- Create a div where the graph will take place -->
@@ -15,6 +14,8 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 460 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
+
+
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
   .append("svg")
@@ -25,10 +26,13 @@ var svg = d3.select("#my_dataviz")
           "translate(" + margin.left + "," + margin.top + ")");
 
 //Read the data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv", function(data) {
-{## https://raw.githubusercontent.com/HaJunYoo/iris-development/main/iris.csv#}
-{#    https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv#}
-  // Add X axis
+//csv 파일을 읽을 때  d3.csv (경로 , function(data){})  를 통해 csv 파일을 읽어온다.
+
+d3.csv("https://raw.githubusercontent.com/HaJunYoo/iris-development/main/iris.csv", function(data) {
+{# https://raw.githubusercontent.com/HaJunYoo/iris-development/main/iris.csv#}
+{# https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv#}
+
+    // Add X scale and axis sepal length
   var x = d3.scaleLinear()
     .domain([4, 8])
     .range([ 0, width ]);
@@ -36,7 +40,7 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
-  // Add Y axis
+  // Add Y scale and axis petal length
   var y = d3.scaleLinear()
     .domain([0, 9])
     .range([ height, 0]);
@@ -52,7 +56,7 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
   // Highlight the specie that is hovered
   var highlight = function(d){
 
-    selected_specie = d.Species
+    selected_specie = d.classification
 
     d3.selectAll(".dot")
       .transition()
@@ -82,11 +86,11 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
     .data(data)
     .enter()
     .append("circle")
-      .attr("class", function (d) { return "dot " + d.Species } )
-      .attr("cx", function (d) { return x(d.Sepal_Length); } )
-      .attr("cy", function (d) { return y(d.Petal_Length); } )
+      .attr("class", function (d) { return "dot " + d.classification } )
+      .attr("cx", function (d) { return x(d.sepal_length); } )
+      .attr("cy", function (d) { return y(d.petal_length); } )
       .attr("r", 5)
-      .style("fill", function (d) { return color(d.Species) } )
+      .style("fill", function (d) { return color(d.classification) } )
     .on("mouseover", highlight)
     .on("mouseleave", doNotHighlight )
 
