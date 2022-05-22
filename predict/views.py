@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import pandas as pd
+from sklearn import metrics
 from sklearn.model_selection import train_test_split
 
 from .models import PredResults
+
+# 교수님 피드백 : csv -> github -> api 형식 -> ajax -> 뷰
+
+# 공공api -> json -> 머신러닝
 
 
 # your project absolute path
@@ -25,11 +30,12 @@ def predict_chances(request):
 
         select_ml = str(request.POST.get('select_ml'))
 
-        # df = pd.read_csv("./iris.csv")
-        #
-        # # print(df)
-        #
-        # # Split into training data and test data
+        df = pd.read_csv("./iris.csv")
+        # api -> json -> dataframe -> 머신러닝 // 데이터 유동적으로 바뀌요 \
+
+        print(df)
+
+        # Split into training data and test data
         # X = df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']]
         # y = df['classification']
 
@@ -54,8 +60,9 @@ def predict_chances(request):
         # Make prediction
         result = model.predict(input_data)
 
-        score = model.score(input_data, result)
-        print(score)
+        # print(metrics.accuracy_score(model._y, result))
+        # score = model.score(input_data, result)
+
 
         classification = result[0] # result의 0번째 인덱스에 저장이 되어 있음
 
@@ -73,3 +80,7 @@ def view_results(request):
     # Submit prediction and show all
     data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data)
+
+def view_visual(request):
+    data = {"dataset": PredResults.objects.all()}
+    return render(request, "visual.html", data)

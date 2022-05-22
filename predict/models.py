@@ -12,3 +12,4 @@ class PredResults(models.Model):
 
     def __str__(self):
         return f'{self.classification} : {self.ml_algorithm} | {self.ml_param}'
+

@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.predict, name='prediction_page'),
     path('predict/', views.predict_chances, name='submit_prediction'),
     path('results/', views.view_results, name='results'),
+    path('visual/', views.view_visual, name='visual')
 ]

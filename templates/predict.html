@@ -85,17 +85,14 @@
         {% load static %}
         <img src="{% static 'image/iris.jpg' %}" alt = "iris image" width = "90%">
         </div>
-
     </div>
-
-
-
 </div>
 
 
 
 
 <script>
+
     $(document).on('submit', '#post-form',function(e){
         {# submit -> 연쇄 다음 이벤트 묵살 -> ajax 실행 #}
         e.preventDefault();
@@ -128,6 +125,7 @@
             }
         });
     })
+
 </script>
 
 
