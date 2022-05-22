@@ -1,13 +1,29 @@
 {% extends "base.html" %}
 
 {% block main %}
-<h1>Scatter Plot (sepal length, petal length) </h1>
+<div class = 'header_graph'>
+    <h1> Scatter Plot (sepal length, petal length) </h1>
+</div>
 
+
+<div class = "legend">
+  <svg id="legend" height=250 width=250></svg>
+</div>
 <!-- Load d3.js -->
 <!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+<div class="my_dataviz" id="my_dataviz"></div>
 
 <script>
+// select the svg area
+var svg = d3.select("#legend")
+// Handmade legend
+svg.append("circle").attr("cx",100).attr("cy",130).attr("r", 6).style("fill", "#440154ff")
+svg.append("circle").attr("cx",100).attr("cy",160).attr("r", 6).style("fill", "#21908dff")
+svg.append("circle").attr("cx",100).attr("cy",190).attr("r", 6).style("fill", "#fde725ff")
+svg.append("text").attr("x", 120).attr("y", 130).text("Iris-setosa").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 120).attr("y", 160).text("Iris-versicolor").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 120).attr("y", 190).text("Iris-virginica").style("font-size", "15px").attr("alignment-baseline","middle")
+
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
@@ -24,6 +40,8 @@ var svg = d3.select("#my_dataviz")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+
+
 
 //Read the data
 //csv 파일을 읽을 때  d3.csv (경로 , function(data){})  를 통해 csv 파일을 읽어온다.
