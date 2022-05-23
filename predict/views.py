@@ -30,10 +30,10 @@ def predict_chances(request):
 
         select_ml = str(request.POST.get('select_ml'))
 
-        df = pd.read_csv("./iris.csv")
+        # df = pd.read_csv("./iris.csv")
         # api -> json -> dataframe -> 머신러닝 // 데이터 유동적으로 바뀌요 \
 
-        print(df)
+        # print(df)
 
         # Split into training data and test data
         # X = df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']]
