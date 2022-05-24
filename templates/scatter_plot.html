@@ -8,7 +8,26 @@
 <!-- Load d3.js -->
 <!-- Create a div where the graph will take place -->
 
+<div class = "my_dataviz">
+<div id="my_dataviz"></div>
+</div>
+
+<div class = "legend">
+  <svg id="legend" height=250 width=250></svg>
+</div>
+
+
 <script>
+// select the svg area
+var svg = d3.select("#legend")
+// Handmade legend
+svg.append("circle").attr("cx",100).attr("cy",130).attr("r", 6).style("fill", "#440154ff")
+svg.append("circle").attr("cx",100).attr("cy",160).attr("r", 6).style("fill", "#21908dff")
+svg.append("circle").attr("cx",100).attr("cy",190).attr("r", 6).style("fill", "#fde725ff")
+svg.append("text").attr("x", 120).attr("y", 130).text("Iris-setosa").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 120).attr("y", 160).text("Iris-versicolor").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 120).attr("y", 190).text("Iris-virginica").style("font-size", "15px").attr("alignment-baseline","middle")
+
 
 
 // set the dimensions and margins of the graph

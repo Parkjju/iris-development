@@ -2,11 +2,8 @@
 
 {% block main %}
 
-
 <html>
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 
@@ -20,11 +17,15 @@
 
       /* Size the visualization container. */
       #container {
-        position: fixed;
+        /*position: fixed;*/
+        position : fixed;
         top: 30px;
         bottom: 30px;
         left: 30px;
         right: 30px;
+        width: 80%;
+        height: 80%;
+
       }
 
       /* Style the visualization.
@@ -65,7 +66,7 @@
   <body>
 
   <div class = 'header_graph'>
-    <h3> Box_plot (classification) </h3>
+    <h3> Bar_chart (classification) </h3>
   </div>
 
 
@@ -98,7 +99,7 @@ function BarChart (container) {
       yAxisG = g.append("g").attr("class", "y axis"),
       yAxisText = yAxisG.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 6)
+        .attr("y", 1.5)
         .attr("dy", ".71em")
         .style("text-anchor", "end");
 
@@ -355,7 +356,7 @@ function main(){
     yField: 'sepalLength',
     xLabel: 'Sepal Width (cm)',
     yLabel: 'Sepal Length (cm)',
-    margin: { 'top': 100, 'right': 20, 'bottom': 30, 'left': 40 }
+    margin: { 'top': 120, 'right': 20, 'bottom': 30, 'left': 40 }
   });
 
   // Configure the bar chart to use the aggregated iris data.
@@ -363,7 +364,7 @@ function main(){
     xAttribute: 'species',
     yAttribute: 'count',
     yAxisLabel: 'number of irises',
-    margin: { 'top': 100, 'right': 20, 'bottom': 30, 'left': 40 }
+    margin: { 'top': 120, 'right': 20, 'bottom': 30, 'left': 40 }
   });
 
   // Compute the aggregated iris data in response to brushing
@@ -433,5 +434,7 @@ main();
     </script>
   </body>
 
+
+</html>
 
 {% endblock %}
