@@ -82,5 +82,7 @@ def view_results(request):
     return render(request, "results.html", data)
 
 def view_visual(request):
-    data = {"dataset": PredResults.objects.all()}
-    return render(request, "visual.html", data)
+    return render(request, "scatter_plot.html")
+
+def view_boxplot(request) :
+    return render(request, "box_plot.html")

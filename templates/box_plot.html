@@ -1,36 +1,23 @@
-	<!DOCTYPE html>
-<meta charset="utf-8">
+{% extends "base.html" %}
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
+{% block main %}
 
-<!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+<div class = 'header_graph'>
+    <h3> Box_plot (classification) </h3>
+</div>
 
-<!-- Plugin for color scale -->
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+{#그래프는 여기 플레이스 될 것임#}
+<div id="box_plot"></div>
 
-<!-- Tooltip style -->
-<style>
-.tooltip {
-  background-color: black;
-  border: none;
-  border-radius: 5px;
-  padding: 15px;
-  min-width: 400px;
-  text-align: left;
-  color: white;
-}
-</style>
 <script>
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 50, left: 70},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    width = 600 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#my_dataviz")
+var svg = d3.select("#box_plot")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -39,15 +26,15 @@ var svg = d3.select("#my_dataviz")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Read the data and compute summary statistics for each specie
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv", function(data) {
+d3.csv("https://raw.githubusercontent.com/HaJunYoo/iris-development/main/iris.csv", function(data) {
 
   // Compute quartiles, median, inter quantile range min and max --> these info are then used to draw the box.
   var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
-    .key(function(d) { return d.Species;})
+    .key(function(d) { return d.classification;})
     .rollup(function(d) {
-      q1 = d3.quantile(d.map(function(g) { return g.Sepal_Length;}).sort(d3.ascending),.25)
-      median = d3.quantile(d.map(function(g) { return g.Sepal_Length;}).sort(d3.ascending),.5)
-      q3 = d3.quantile(d.map(function(g) { return g.Sepal_Length;}).sort(d3.ascending),.75)
+      q1 = d3.quantile(d.map(function(g) { return g.sepal_length;}).sort(d3.ascending),.25)
+      median = d3.quantile(d.map(function(g) { return g.sepal_length;}).sort(d3.ascending),.5)
+      q3 = d3.quantile(d.map(function(g) { return g.sepal_length;}).sort(d3.ascending),.75)
       interQuantileRange = q3 - q1
       min = q1 - 1.5 * interQuantileRange
       max = q3 + 1.5 * interQuantileRange
@@ -58,7 +45,7 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
   // Show the Y scale
   var y = d3.scaleBand()
     .range([ height, 0 ])
-    .domain(["setosa", "versicolor", "virginica"])
+    .domain(["Iris-setosa", "Iris-versicolor", "Iris-virginica"])
     .padding(.4);
   svg.append("g")
     .call(d3.axisLeft(y).tickSize(0))
@@ -126,7 +113,7 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
       .style("width", 80)
 
   // create a tooltip
-  var tooltip = d3.select("#my_dataviz")
+  var tooltip = d3.select("#box_plot")
     .append("div")
       .style("opacity", 0)
       .attr("class", "tooltip")
@@ -138,7 +125,7 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
       .duration(200)
       .style("opacity", 1)
     tooltip
-        .html("<span style='color:grey'>Sepal length: </span>" + d.Sepal_Length) // + d.Prior_disorder + "<br>" + "HR: " +  d.HR)
+        .html("<span style='color:grey'>Sepal length: </span>" + d.sepal_length) // + d.Prior_disorder + "<br>" + "HR: " +  d.HR)
         .style("left", (d3.mouse(this)[0]+30) + "px")
         .style("top", (d3.mouse(this)[1]+30) + "px")
   }
@@ -161,10 +148,10 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function(d){ return(x(d.Sepal_Length))})
-      .attr("cy", function(d){ return( y(d.Species) + (y.bandwidth()/2) - jitterWidth/2 + Math.random()*jitterWidth )})
+      .attr("cx", function(d){ return(x(d.sepal_length))})
+      .attr("cy", function(d){ return( y(d.classification) + (y.bandwidth()/2) - jitterWidth/2 + Math.random()*jitterWidth )})
       .attr("r", 4)
-      .style("fill", function(d){ return(myColor(+d.Sepal_Length)) })
+      .style("fill", function(d){ return(myColor(+d.sepal_length)) })
       .attr("stroke", "black")
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
@@ -176,3 +163,5 @@ d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/ir
 
 
 </script>
+
+{% endblock %}
