@@ -3,8 +3,9 @@ from django.http import JsonResponse
 import pandas as pd
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-
+from django.db.models import Q, Count
 from .models import PredResults
+from django.core import serializers
 
 # 교수님 피드백 : csv -> github -> api 형식 -> ajax -> 뷰
 
@@ -86,3 +87,22 @@ def view_visual(request):
 
 def view_boxplot(request) :
     return render(request, "box_plot.html")
+
+def view_piechart(request) :
+
+    data = {"dataset" : PredResults.objects.all() }
+    setosa = PredResults.objects.filter(Q(classification__contains= 'setosa'))
+    versicolor = PredResults.objects.filter(Q(classification__contains= 'versicolor'))
+    virginica = PredResults.objects.filter(Q(classification__contains= 'virginica'))
+
+    setosa_count = setosa.count()
+    versicolor_count = versicolor.count()
+    virginica_count = virginica.count()
+
+    return render(request, "pie_chart.html", {'setosa_count':setosa_count,
+                                              'versicolor_count':versicolor_count,
+                                              'virginica_count':virginica_count})
+
+
+def view_barchart(request) :
+    return render(request, "bar_chart.html")
