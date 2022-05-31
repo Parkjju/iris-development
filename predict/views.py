@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from django.db.models import Q, Count
-from .models import PredResults
+from .models import PredResults, PredUser
 from django.core import serializers
 
 
@@ -27,6 +27,15 @@ path = "/Users/yoohajun/PycharmProjects/iris_development"
 def predict(request):
     return render(request, 'predict.html')
 
+def user_create(request):
+
+    if request.user.is_authenticated :
+        username = str(request.user.username)
+
+    PredUser.objects.create(username=username)
+
+    return redirect('predict.html')
+
 
 def predict_chances(request):
 
@@ -41,7 +50,7 @@ def predict_chances(request):
         select_ml = str(request.POST.get('select_ml'))
         username = str(request.user.username)
 
-        print(username)
+        # print(username)
         # df = pd.read_csv("./iris.csv")
         # api -> json -> dataframe -> 머신러닝 // 데이터 유동적으로 바뀌요 \
 
@@ -119,29 +128,4 @@ def view_barchart(request) :
     return render(request, "bar_chart.html")
 
 
-
-# 회원가입
-
-# def signup(request) :
-#     return render(request, "signup.html")
-#
-# def login(request) :
-#     return render(request, "login.html")
-
-
-
-# def signup(request):
-#     if request.method == 'POST':
-#         if request.POST['password1'] == request.POST['password2']:
-#             user = User.objects.create_user(
-#                 username=request.POST['username'],
-#                 password=request.POST['password1'],
-#             )
-#             auth.login(request, user)
-#             # return redirect('results')
-#
-#         return render(request, 'signup.html')
-#     else:
-#         form = UserCreationForm
-#         return render(request, 'signup.html', {'form': form})
 

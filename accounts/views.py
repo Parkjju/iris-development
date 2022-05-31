@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
-
 # Create your views here.
 
 def login(request):
@@ -30,5 +29,9 @@ def signup(request):
             # 로그인
             auth.login(request, new_user)
             # 홈 리다이렉션
+
+
+
             return redirect('accounts:login')
+
     return render(request, 'register.html')
