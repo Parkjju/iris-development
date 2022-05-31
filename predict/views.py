@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import pandas as pd
 from sklearn import metrics
@@ -6,6 +6,15 @@ from sklearn.model_selection import train_test_split
 from django.db.models import Q, Count
 from .models import PredResults
 from django.core import serializers
+
+
+# 회원가입
+from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+
+
 
 # 교수님 피드백 : csv -> github -> api 형식 -> ajax -> 뷰
 
@@ -30,7 +39,9 @@ def predict_chances(request):
         petal_width = float(request.POST.get('petal_width'))
 
         select_ml = str(request.POST.get('select_ml'))
+        username = str(request.user.username)
 
+        print(username)
         # df = pd.read_csv("./iris.csv")
         # api -> json -> dataframe -> 머신러닝 // 데이터 유동적으로 바뀌요 \
 
@@ -64,13 +75,12 @@ def predict_chances(request):
         # print(metrics.accuracy_score(model._y, result))
         # score = model.score(input_data, result)
 
-
         classification = result[0] # result의 0번째 인덱스에 저장이 되어 있음
-
 
         # db에 예측한 내용이 객체화되서 저장될 수 있게함
         PredResults.objects.create(sepal_length=sepal_length, sepal_width=sepal_width, petal_length=petal_length,
-                                   petal_width=petal_width, classification=classification, ml_algorithm = model_name ,ml_param = str(model) )
+                                   petal_width=petal_width, classification=classification, ml_algorithm = model_name ,ml_param = str(model), username=username)
+
 
         return JsonResponse({'result': classification, 'ml_algorithm': model_name,'sepal_length': sepal_length,
                              'sepal_width': sepal_width, 'petal_length': petal_length, 'petal_width': petal_width, 'ml_param': ml_param},
@@ -79,6 +89,7 @@ def predict_chances(request):
 
 def view_results(request):
     # Submit prediction and show all
+
     data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data)
 
@@ -106,3 +117,31 @@ def view_piechart(request) :
 
 def view_barchart(request) :
     return render(request, "bar_chart.html")
+
+
+
+# 회원가입
+
+# def signup(request) :
+#     return render(request, "signup.html")
+#
+# def login(request) :
+#     return render(request, "login.html")
+
+
+
+# def signup(request):
+#     if request.method == 'POST':
+#         if request.POST['password1'] == request.POST['password2']:
+#             user = User.objects.create_user(
+#                 username=request.POST['username'],
+#                 password=request.POST['password1'],
+#             )
+#             auth.login(request, user)
+#             # return redirect('results')
+#
+#         return render(request, 'signup.html')
+#     else:
+#         form = UserCreationForm
+#         return render(request, 'signup.html', {'form': form})
+

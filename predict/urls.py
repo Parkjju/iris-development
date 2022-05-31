@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
+
 
 app_name = "predict"
 
@@ -11,4 +13,5 @@ urlpatterns = [
     path('box_plot/', views.view_boxplot, name='box_plot'),
     path('pie_chart/', views.view_piechart, name='pie_chart'),
     path('bar_chart/', views.view_barchart, name='bar_chart'),
+
 ]
