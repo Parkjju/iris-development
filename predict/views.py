@@ -68,8 +68,10 @@ def predict_chances(request, user_id):
 
 def view_results(request):
     # Submit prediction and show all
+    username = str(request.user.username)
+    data = {"dataset": PredResults.objects.filter(Q(username = username))}
 
-    data = {"dataset": PredResults.objects.all()}
+    # data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data)
 
 def view_visual(request):
@@ -80,10 +82,16 @@ def view_boxplot(request) :
 
 def view_piechart(request) :
 
-    data = {"dataset" : PredResults.objects.all() }
-    setosa = PredResults.objects.filter(Q(classification__contains= 'setosa'))
-    versicolor = PredResults.objects.filter(Q(classification__contains= 'versicolor'))
-    virginica = PredResults.objects.filter(Q(classification__contains= 'virginica'))
+    username = str(request.user.username)
+    data = PredResults.objects.filter(Q(username = username))
+
+    setosa = data.filter(Q(classification__contains= 'setosa'))
+    versicolor = data.filter(Q(classification__contains= 'versicolor'))
+    virginica = data.filter(Q(classification__contains= 'virginica'))
+
+    # setosa = PredResults.objects.filter(Q(classification__contains= 'setosa'))
+    # versicolor = PredResults.objects.filter(Q(classification__contains= 'versicolor'))
+    # virginica = PredResults.objects.filter(Q(classification__contains= 'virginica'))
 
     setosa_count = setosa.count()
     versicolor_count = versicolor.count()

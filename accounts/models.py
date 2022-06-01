@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 
 class PredUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    username = models.CharField(max_length=60)
+    nickname = models.CharField(max_length=60)
 
     def __str__(self):
-        return f'{self.username}'
+        return f'{self.nickname}'
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
