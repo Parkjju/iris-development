@@ -28,7 +28,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('predict:prediction_page')
+    return redirect('accounts:login')
 
 def signup(request):
     if request.method == "POST":
@@ -46,7 +46,7 @@ def signup(request):
 
 @login_required
 def profile(request):
-    PredUser.objects.get_or_create(user = request.user) #
+    PredUser.objects.get_or_create(user = request.user)
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(
