@@ -1,25 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 import pandas as pd
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from django.db.models import Q, Count
-from .models import PredResults, PredUser
+from .models import *
 from django.core import serializers
 
-
-# 회원가입
-from django.contrib import auth
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
-
-
+from accounts.models import *
 
 # 교수님 피드백 : csv -> github -> api 형식 -> ajax -> 뷰
 
 # 공공api -> json -> 머신러닝
-
 
 # your project absolute path
 path = "/Users/yoohajun/PycharmProjects/iris_development"
@@ -27,17 +19,9 @@ path = "/Users/yoohajun/PycharmProjects/iris_development"
 def predict(request):
     return render(request, 'predict.html')
 
-def user_create(request):
+def predict_chances(request, user_id):
 
-    if request.user.is_authenticated :
-        username = str(request.user.username)
-
-    PredUser.objects.create(username=username)
-
-    return redirect('predict.html')
-
-
-def predict_chances(request):
+    user_detail = get_object_or_404(PredUser, pk=user_id)
 
     if request.POST.get('action') == 'post':
 
@@ -49,22 +33,6 @@ def predict_chances(request):
 
         select_ml = str(request.POST.get('select_ml'))
         username = str(request.user.username)
-
-        # print(username)
-        # df = pd.read_csv("./iris.csv")
-        # api -> json -> dataframe -> 머신러닝 // 데이터 유동적으로 바뀌요 \
-
-        # print(df)
-
-        # Split into training data and test data
-        # X = df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']]
-        # y = df['classification']
-
-        # # Create training and testing vars, It’s usually around 80/20 or 70/30.
-        # X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.20, random_state=1)
-
-        # Unpickle model using pandas
-        # model = pd.read_pickle(path + "/new_model.pkl")
 
         if select_ml == 'svc' :
             model = pd.read_pickle(path + "/svc_model.pkl")
@@ -88,13 +56,15 @@ def predict_chances(request):
 
         # db에 예측한 내용이 객체화되서 저장될 수 있게함
         PredResults.objects.create(sepal_length=sepal_length, sepal_width=sepal_width, petal_length=petal_length,
-                                   petal_width=petal_width, classification=classification, ml_algorithm = model_name ,ml_param = str(model), username=username)
+                                   petal_width=petal_width, classification=classification, ml_algorithm = model_name ,ml_param = str(model), username=username, user = user_detail)
 
 
         return JsonResponse({'result': classification, 'ml_algorithm': model_name,'sepal_length': sepal_length,
                              'sepal_width': sepal_width, 'petal_length': petal_length, 'petal_width': petal_width, 'ml_param': ml_param},
                             safe=False)
         # json 형식으로 변수에 담아 client에 response해준다
+
+
 
 def view_results(request):
     # Submit prediction and show all
@@ -126,6 +96,4 @@ def view_piechart(request) :
 
 def view_barchart(request) :
     return render(request, "bar_chart.html")
-
-
 

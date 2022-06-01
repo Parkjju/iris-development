@@ -1,12 +1,9 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 
-class PredUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    username = models.CharField(max_length=60)
-
-    def __str__(self):
-        return f'{self.username}'
+from accounts.models import PredUser
 
 class PredResults(models.Model):
     sepal_length = models.FloatField()
@@ -18,7 +15,7 @@ class PredResults(models.Model):
     ml_param = models.CharField(max_length=60, default= "default")
 
     username = models.CharField(max_length=60, default= "admin")
-    user = models.ForeignKey(PredUser, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(PredUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.classification} : {self.ml_algorithm} | {self.ml_param}'
@@ -26,5 +23,10 @@ class PredResults(models.Model):
 # ###
 # user
 # 1234
+
+'''
+user_first
+1234
+'''
 # ###
 
