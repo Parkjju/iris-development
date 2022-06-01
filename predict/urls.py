@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 app_name = "predict"
 
 urlpatterns = [
-    path('', views.predict, name='prediction_page'),
+    path('predict/', views.predict, name='prediction_page'),
     # path('', views.user_create, name='user_create'),
     path('predict/<int:user_id>', views.predict_chances, name='submit_prediction'),
     path('results/', views.view_results, name='results'),

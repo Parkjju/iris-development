@@ -58,7 +58,27 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Prediction <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Login <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">logout</a>
+                </li>
+
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <span class="badge bg-secondary">{{user.username}}</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Do Login</span>
+                    {% endif %}
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">profile update</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/predict">predict</a>
                 </li>
 
                 <li class="nav-item">
@@ -82,25 +102,7 @@
                 </li>
 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">login</a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">logout</a>
-                </li>
-
-                <li class="nav-item">
-                    {% if user.is_authenticated %}
-                    <span class="badge bg-secondary">{{user.username}}</span>
-                    {% else %}
-                    <span class="badge bg-secondary">Do Login</span>
-                    {% endif %}
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">profile update</a>
-                </li>
 
             </ul>
         </div>

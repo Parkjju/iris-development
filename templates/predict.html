@@ -100,7 +100,7 @@
         $.ajax({
             type:'POST',
             {#app = predict, reference url namespace => submit_prediction #}
-            url:'{% url "predict:submit_prediction" %}',
+            url:'{% url "predict:submit_prediction" user.id %}',
             data:{
                 sepal_length:$('#sepal_length').val(),
                 sepal_width:$('#sepal_width').val(),
