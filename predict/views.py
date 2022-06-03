@@ -8,17 +8,20 @@ from .models import *
 from django.core import serializers
 
 from accounts.models import *
+from django.contrib.auth.decorators import login_required
 
-# 교수님 피드백 : csv -> github -> api 형식 -> ajax -> 뷰
 
 # 공공api -> json -> 머신러닝
 
-# your project absolute path
+# your project root => absolute path
 path = "/Users/yoohajun/PycharmProjects/iris_development"
 
+@login_required
 def predict(request):
     return render(request, 'predict.html')
 
+
+@login_required
 def predict_chances(request, user_id):
 
     user_detail = get_object_or_404(PredUser, pk=user_id)
@@ -41,7 +44,6 @@ def predict_chances(request, user_id):
             model = pd.read_pickle(path + "/knn_model.pkl")
             model_name = 'K-NeighborsClassifier'
 
-        # dt_model = pd.read_pickle(path + "/dt_model.pkl")
 
         ml_param = str(model)
         input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
@@ -65,7 +67,7 @@ def predict_chances(request, user_id):
         # json 형식으로 변수에 담아 client에 response해준다
 
 
-
+@login_required
 def view_results(request):
     # Submit prediction and show all
     username = str(request.user.username)
@@ -74,12 +76,8 @@ def view_results(request):
     # data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data)
 
-def view_visual(request):
-    return render(request, "scatter_plot.html")
 
-def view_boxplot(request) :
-    return render(request, "box_plot.html")
-
+@login_required
 def view_piechart(request) :
 
     username = str(request.user.username)
@@ -101,7 +99,17 @@ def view_piechart(request) :
                                               'versicolor_count':versicolor_count,
                                               'virginica_count':virginica_count})
 
+@login_required
+def view_visual(request):
+    return render(request, "scatter_plot.html")
 
+@login_required
+def view_boxplot(request) :
+    return render(request, "box_plot.html")
+
+
+
+@login_required
 def view_barchart(request) :
     return render(request, "bar_chart.html")
 
