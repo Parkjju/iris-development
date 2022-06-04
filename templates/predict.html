@@ -40,6 +40,7 @@
 </div>
 
 
+
 {#bootstrap container form 만들기     #}
 {#add container top padding 5($spacer * 3) (default = 15px)#}
 <div class="container pt-5">
@@ -99,16 +100,19 @@
         $.ajax({
             type:'POST',
             {#app = predict, reference url namespace => submit_prediction #}
-            url:'{% url "predict:submit_prediction" %}',
+            url:'{% url "predict:submit_prediction" user.id %}',
             data:{
                 sepal_length:$('#sepal_length').val(),
                 sepal_width:$('#sepal_width').val(),
                 petal_length:$('#petal_length').val(),
                 petal_width:$('#petal_width').val(),
                 select_ml : $('#select_ml').val(),
+                //{#username : {{user.username}},#}
+
                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                 action: 'post'
             },
+
             success:function(json) {
                 {#form 보냄이 성공하면 적은 내용 사라짐#}
                 document.forms["post-form"].reset();
