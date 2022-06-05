@@ -1,1 +1,1 @@
-web: gunicorn iris-development.wsgi --log-file -
+web: gunicorn iris-predictapp.wsgi --log-file -
