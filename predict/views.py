@@ -15,7 +15,9 @@ import os
 
 # your project root => absolute path
 # path = "/Users/yoohajun/PycharmProjects/iris_development"
-path = os.path.join('../')
+# path = os.path.join(BASE_DIR)
+knnpath = os.path.abspath('../app/knn_model.pkl')
+svcpath = os.path.abspath('../app/svc_model.pkl')
 
 @login_required
 def predict(request):
@@ -39,10 +41,10 @@ def predict_chances(request, user_id):
         username = str(request.user.username)
 
         if select_ml == 'svc' :
-            model = pd.read_pickle(path + "/svc_model.pkl")
+            model = pd.read_pickle(svcpath )
             model_name = 'Support Vector Machine'
         else :
-            model = pd.read_pickle(path + "/knn_model.pkl")
+            model = pd.read_pickle(knnpath )
             model_name = 'K-NeighborsClassifier'
 
 
