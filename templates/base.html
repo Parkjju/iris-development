@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,23 +17,19 @@
         />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://d3js.org/d3.v4.js"></script>
-        {#
-        <!-- Plugin for color scale -->
-        #}
+
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
         <link
             rel="shortcut icon"
             type="image/png"
-            href="{% static 'favicon.ico' %}"
+            href="{% static 'image/favicon.ico' %}"
         />
 
-        {#
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-        #} {##} {#
+
         <!-- A functional reactive model library. github.com/curran/model -->
-        #} {#
+
         <script src="https://curran.github.io/model/cdn/model-v0.2.4.js"></script>
-        #}
 
         <title>Iris prediction</title>
 
@@ -49,9 +46,7 @@
             .header_graph {
                 margin-left: 4%;
             }
-             {
-                #<!-- Tooltip style -- > #;
-            }
+
             .tooltip {
                 background-color: black;
                 border: none;
@@ -76,8 +71,6 @@
             >
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            {#prediction | results(db) 헤더 탭 생성#}
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
