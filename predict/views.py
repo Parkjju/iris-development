@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 # 공공api -> json -> 머신러닝
 
 # your project root => absolute path
-path = r"C:\Users\dabin\Desktop\2021-2022 휴학\멋사 10기\iris_44"
+path = "/Users/choeseungho/Desktop/iris-development"
 
 @login_required
 def predict(request):
