@@ -20,17 +20,14 @@ import os
 knnpath = os.path.join('knn_model.pkl')
 svcpath = os.path.join('svc_model.pkl')
 
+
 @login_required
 def predict(request):
-    return render(request, 'predict.html')
+    return render(request, 'predict.html',{'mypath1':mypath1, 'mypath2':mypath2})
 
 
 @login_required
 def predict_chances(request, user_id):
-    # knnurl ='https://api.github.com/repos/parkjju/model-files/contents/knn_model.pkl'
-    # svcurl = 'https://api.github.com/repos/parkjju/model-files/contents/svc_model.pkl'
-    # response = requests.get(knnurl)
-    # print("response: ", response)
 
     user_detail = get_object_or_404(PredUser, pk=user_id)
 
