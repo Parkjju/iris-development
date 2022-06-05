@@ -17,8 +17,8 @@ import os
 # your project root => absolute path
 # path = "/Users/yoohajun/PycharmProjects/iris_development"
 # path = os.path.join(BASE_DIR)
-knnpath = os.path.join(settings.BASE_DIR + '/knn_model.pkl')
-svcpath = os.path.join(settings.BASE_DIR + '/svc_model.pkl')
+knnpath = os.path.join(str(settings.BASE_DIR) + '/knn_model.pkl')
+svcpath = os.path.join(str(settings.BASE_DIR) + '/svc_model.pkl')
 
 @login_required
 def predict(request):
