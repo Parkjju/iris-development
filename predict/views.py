@@ -23,7 +23,17 @@ svcpath = os.path.join('svc_model.pkl')
 
 @login_required
 def predict(request):
-    return render(request, 'predict.html')
+
+    # request => get auth user id
+    u_id = request.user.id
+    # Preduser = userid => pk
+    user_data = PredUser.objects.filter(Q(user_id = u_id))
+
+    # 해당 pk에 해당하는 객체 하나만
+    preduser = user_data[0]
+
+    # 위의 객체를 predict.html에 렌더링
+    return render(request, 'predict.html', {'preduser' : preduser})
 
 
 @login_required

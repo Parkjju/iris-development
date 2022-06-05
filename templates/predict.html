@@ -54,7 +54,7 @@
     <div class="row justify-content-md-center">
         {# column grid medium -> 12/4(3분할) number of 4#}
         <div class="col-md-4">
-            <h1>Find my flower</h1>
+            <h1>Find my flower by "{{preduser.nickname}}"</h1>
 
             {# form id name = post-form #}
             <form action="" id="post-form">
@@ -141,7 +141,7 @@
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '{% url "predict:submit_prediction" user.id %}',
+            url: '{% url "predict:submit_prediction" preduser.id %}',
             data: {
                 sepal_length: $('#sepal_length').val(),
                 sepal_width: $('#sepal_width').val(),
