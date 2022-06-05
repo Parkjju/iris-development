@@ -40,6 +40,11 @@ def predict_chances(request, user_id):
         if select_ml == 'svc' :
             model = pd.read_pickle(path + "/svc_model.pkl")
             model_name = 'Support Vector Machine'
+
+        elif select_ml == 'dt' :
+            model = pd.read_pickle(path + "/dt_model.pkl")
+            model_name = 'Decision Tree'
+
         else :
             model = pd.read_pickle(path + "/knn_model.pkl")
             model_name = 'K-NeighborsClassifier'
@@ -53,6 +58,7 @@ def predict_chances(request, user_id):
 
         # print(metrics.accuracy_score(model._y, result))
         # score = model.score(input_data, result)
+        # print(score)
 
         classification = result[0] # result의 0번째 인덱스에 저장이 되어 있음
 
@@ -99,14 +105,15 @@ def view_piechart(request) :
                                               'versicolor_count':versicolor_count,
                                               'virginica_count':virginica_count})
 
+
 @login_required
 def view_visual(request):
     return render(request, "scatter_plot.html")
 
+
 @login_required
 def view_boxplot(request) :
     return render(request, "box_plot.html")
-
 
 
 @login_required

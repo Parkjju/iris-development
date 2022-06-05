@@ -46,7 +46,7 @@
     <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -64,13 +64,6 @@
                     <a class="nav-link" href="/logout">logout</a>
                 </li>
 
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">profile update</a>
-                </li>
-
-
-
                 <li class="nav-item">
                     {% if user.is_authenticated %}
                     <span class="badge bg-secondary">{{user.username}}</span>
@@ -78,34 +71,6 @@
                     <span class="badge bg-secondary">Do Login</span>
                     {% endif %}
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/predict">predict</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/results">DB</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/pie_chart">Pie Chart</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/scatter_plot">Scatter Plot</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/box_plot">Box Plot</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/bar_chart">Bar Chart</a>
-                </li>
-
-
-
-
             </ul>
         </div>
     </nav>
