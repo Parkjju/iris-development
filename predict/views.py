@@ -10,7 +10,7 @@ from django.core import serializers
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-import os, requests
+import os
 
 # 공공api -> json -> 머신러닝
 
