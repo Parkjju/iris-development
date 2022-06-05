@@ -19,17 +19,22 @@ path = "/Users/yoohajun/PycharmProjects/iris_development"
 @login_required
 def predict(request):
 
+    # request => get auth user id
     u_id = request.user.id
+    # Preduser = userid => pk
     user_data = PredUser.objects.filter(Q(user_id = u_id))
 
+    # 해당 pk에 해당하는 객체 하나만
     preduser = user_data[0]
 
+    # 위의 객체를 predict.html에 렌더링
     return render(request, 'predict.html', {'preduser' : preduser})
 
 
 @login_required
 def predict_chances(request, user_id):
 
+    # user_id => preduser pk
     user_detail = get_object_or_404(PredUser, pk=user_id)
 
     if request.POST.get('action') == 'post':

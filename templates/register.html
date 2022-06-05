@@ -111,8 +111,8 @@
             success:function(json) {
                 {#form 보냄이 성공하면 적은 내용 사라짐#}
                 document.forms["post-form"].reset();
-                document.getElementById("un").innerHTML = json['username']
-
+                {#document.getElementById("un").innerHTML = json['username'];#}
+                alert('Sign up Success!');
 
             },
             error : function(xhr,errmsg,err) {
