@@ -18,11 +18,11 @@
                 <th scope="col">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <b>ML Algorithm</b>
+                            <b>SVC</b>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                           <li><a class="dropdown-item" href="/knn_results"><b>KNN</b></a></li>
-                          <li><a class="dropdown-item" href="/svc_results"><b>SVC</b></a></li>
+                          <li><a class="dropdown-item" href="/results"><b>ML Algorithm</b></a></li>
                         </ul>
                     </div>
                 </th>
@@ -31,17 +31,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for data in dataset %}
+                {% for svc1 in dataset %}
                     <tr>
-                    <th scope="row">{{ data.id }}</th>
-                    <td>{{ data.sepal_length }}</td>
-                    <td>{{ data.sepal_width }}</td>
-                    <td>{{ data.petal_length }}</td>
-                    <td>{{ data.petal_width }}</td>
-                    <td>{{ data.classification }}</td>
-                    <td>{{ data.ml_algorithm }}</td>
-                    <td>{{ data.ml_param}}</td>
-                    <td>{{ data.username}}</td>
+                    <th scope="row">{{ svc1.id }}</th>
+                    <td>{{ svc1.sepal_length }}</td>
+                    <td>{{ svc1.sepal_width }}</td>
+                    <td>{{ svc1.petal_length }}</td>
+                    <td>{{ svc1.petal_width }}</td>
+                    <td>{{ svc1.classification }}</td>
+                    <td>{{ svc1.ml_algorithm }}</td>
+                    <td>{{ svc1.ml_param}}</td>
+                    <td>{{ svc1.username}}</td>
                     </tr>
                 {% endfor %}
 
