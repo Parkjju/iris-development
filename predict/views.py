@@ -18,7 +18,13 @@ path = "/Users/yoohajun/PycharmProjects/iris_development"
 
 @login_required
 def predict(request):
-    return render(request, 'predict.html')
+
+    u_id = request.user.id
+    user_data = PredUser.objects.filter(Q(user_id = u_id))
+
+    preduser = user_data[0]
+
+    return render(request, 'predict.html', {'preduser' : preduser})
 
 
 @login_required
@@ -78,6 +84,7 @@ def view_results(request):
     # Submit prediction and show all
     username = str(request.user.username)
     data = {"dataset": PredResults.objects.filter(Q(username = username))}
+
 
     # data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data)
