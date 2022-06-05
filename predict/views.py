@@ -9,6 +9,7 @@ from django.core import serializers
 
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 import os
 
 # 공공api -> json -> 머신러닝
@@ -16,8 +17,8 @@ import os
 # your project root => absolute path
 # path = "/Users/yoohajun/PycharmProjects/iris_development"
 # path = os.path.join(BASE_DIR)
-knnpath = os.path.join('app/knn_model.pkl')
-svcpath = os.path.join('app/svc_model.pkl')
+knnpath = os.path.join(settings.BASE_DIR + '/knn_model.pkl')
+svcpath = os.path.join(settings.BASE_DIR + '/svc_model.pkl')
 
 @login_required
 def predict(request):
