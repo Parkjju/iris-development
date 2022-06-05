@@ -9,12 +9,13 @@ from django.core import serializers
 
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
-
+import os
 
 # 공공api -> json -> 머신러닝
 
 # your project root => absolute path
-path = "/Users/yoohajun/PycharmProjects/iris_development"
+# path = "/Users/yoohajun/PycharmProjects/iris_development"
+path = os.path.abspath('../')
 
 @login_required
 def predict(request):
