@@ -15,7 +15,7 @@ import os
 
 # your project root => absolute path
 # path = "/Users/yoohajun/PycharmProjects/iris_development"
-path = os.path.join('../iris-development')
+path = os.path.join('../')
 
 @login_required
 def predict(request):
