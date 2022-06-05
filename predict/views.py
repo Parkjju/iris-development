@@ -10,16 +10,15 @@ from django.core import serializers
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-import os
+import os, requests
 
 # 공공api -> json -> 머신러닝
 
 # your project root => absolute path
 # path = "/Users/yoohajun/PycharmProjects/iris_development"
 # path = os.path.join(BASE_DIR)
-knnpath = os.path.join(str(settings.STATICFILES_DIRS[0])+'/image/knn_model.pkl')
-svcpath = os.path.join(str(settings.STATICFILES_DIRS[0])+'/image/svc_model.pkl')
-print(knnpath)
+knnpath = os.path.join('knn_model.pkl')
+svcpath = os.path.join('svc_model.pkl')
 
 @login_required
 def predict(request):
@@ -28,6 +27,10 @@ def predict(request):
 
 @login_required
 def predict_chances(request, user_id):
+    # knnurl ='https://api.github.com/repos/parkjju/model-files/contents/knn_model.pkl'
+    # svcurl = 'https://api.github.com/repos/parkjju/model-files/contents/svc_model.pkl'
+    # response = requests.get(knnurl)
+    # print("response: ", response)
 
     user_detail = get_object_or_404(PredUser, pk=user_id)
 
