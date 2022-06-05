@@ -64,7 +64,7 @@ def predict_chances(request, user_id):
 
         return JsonResponse({'result': classification, 'ml_algorithm': model_name,'sepal_length': sepal_length,
                              'sepal_width': sepal_width, 'petal_length': petal_length, 'petal_width': petal_width, 'ml_param': ml_param},
-                            safe=False)
+                            safe=False,status=200)
         # json 형식으로 변수에 담아 client에 response해준다
 
 
