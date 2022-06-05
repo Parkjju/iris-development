@@ -23,7 +23,7 @@ svcpath = os.path.join('svc_model.pkl')
 
 @login_required
 def predict(request):
-    return render(request, 'predict.html',{'mypath1':mypath1, 'mypath2':mypath2})
+    return render(request, 'predict.html')
 
 
 @login_required
