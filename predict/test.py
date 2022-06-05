@@ -2,7 +2,7 @@ import pandas as pd
 
 
 # your project absolute path
-path = "/Users/yoohajun/PycharmProjects/iris_development"
+path = r"C:\Users\dabin\Desktop\2021-2022 휴학\멋사 10기\iris_44"
 
 model = pd.read_pickle(path + "/new_model.pkl")
 
