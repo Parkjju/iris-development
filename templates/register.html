@@ -100,7 +100,6 @@
         e.preventDefault();
         $.ajax({
             type:'POST',
-            {#app = predict, reference url namespace => account: signup #}
             url:'{% url "accounts:signup" %}',
             data:{
                 username:$('#username').val(),
@@ -115,7 +114,7 @@
             success:function(json) {
                 {#form 보냄이 성공하면 적은 내용 사라짐#}
                 document.forms["post-form"].reset();
-                document.getElementById("un").innerHTML = json['username']
+                alert("회원가입 성공!")
 
 
             },
