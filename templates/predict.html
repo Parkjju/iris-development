@@ -164,7 +164,10 @@
                 document.getElementById('pw').innerHTML = json['petal_width'];
                 document.getElementById('ml').innerHTML = json['ml_param'];
             },
-            error: function (xhr, errmsg, err) {},
+            error: function (xhr, errmsg, err) {
+                console.log(err);
+                alert('에러가 발생했습니다.');
+            },
         });
     });
 </script>
