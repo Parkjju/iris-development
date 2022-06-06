@@ -94,6 +94,13 @@ def view_results(request):
     return render(request, "results.html", data) 
 
 @login_required
+def dt_results(request):
+    username = str(request.user.username)
+    data = {"dataset": PredResults.objects.filter(Q(username = username)&Q(ml_algorithm__contains = "Decision Tree"))}
+
+    return render(request, "dt_results.html", data) 
+
+@login_required
 def knn_results(request):
     # Submit prediction and show all
     username = str(request.user.username)
