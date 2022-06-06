@@ -48,18 +48,15 @@ def predict_chances(request, user_id):
         sepal_width = float(request.POST.get('sepal_width'))
         petal_length = float(request.POST.get('petal_length'))
         petal_width = float(request.POST.get('petal_width'))
-
         select_ml = str(request.POST.get('select_ml'))
         username = str(request.user.username)
 
         if select_ml == 'svc' :
             model = pd.read_pickle(svcpath)
             model_name = 'Support Vector Machine'
-
         elif select_ml == 'dt' :
             model = pd.read_pickle(dtpath)
             model_name = 'Decision Tree'
-
         else :
             model = pd.read_pickle(knnpath)
             model_name = 'K-NeighborsClassifier'
