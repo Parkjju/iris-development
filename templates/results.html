@@ -18,6 +18,7 @@
                 <th scope="col">ML Algorithm</th>
                 <th scope="col">ML Parameter</th>
                 <th scope="col">user name</th>
+                <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@
                     <td>{{ data.ml_algorithm }}</td>
                     <td>{{ data.ml_param}}</td>
                     <td>{{ data.username}}</td>
+                    <td><a class="btn btn-sm btn-warning edit" id="{{ data.id }}">Edit</a> <a class="btn btn-sm btn-danger delete" id="{{ data.id }}">Delete</a></td>
                     </tr>
                 {% endfor %}
 
@@ -39,5 +41,38 @@
             </table>
         </div>
     </div>
+
+
+<script>
+
+// edit
+// click 시 edit 수행 p_result.html의 속성 "name"에서 값의 값을 호출합니다.
+$(document).on('click', '.edit', function(){
+        $id = $(this).attr('id');
+        window.location = "edit/" + $id;
+    }); // Go to the URL defined in the urls_crud.py
+
+// delete
+// 클릭하면 delete selector 실행
+$(document).on('click', '.delete', function(){
+        $id = $(this).attr('id'); // Get the id from the attribute “name”
+        $.ajax({
+            url:  "delete/" + $id +'/' , // defined url
+            type: 'POST',
+            // data에는 csrf 토큰만 남겨놓은 것으로 delete를 수행
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(){
+                alert("Deleted!");
+                location.reload();
+
+            } // 성공하면 read 함수 실행
+        });
+    });
+
+
+
+</script>
 {% endblock %}
 

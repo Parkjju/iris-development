@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 import pandas as pd
+from django.views.decorators.csrf import csrf_exempt
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from django.db.models import Q, Count
@@ -18,15 +19,12 @@ path = "/Users/yoohajun/PycharmProjects/iris_development"
 
 @login_required
 def predict(request):
-
     # request => get auth user id
     u_id = request.user.id
     # Preduser = userid => pk
     user_data = PredUser.objects.filter(Q(user_id = u_id))
-
     # 해당 pk에 해당하는 객체 하나만
     preduser = user_data[0]
-
     # 위의 객체를 predict.html에 렌더링
     return render(request, 'predict.html', {'preduser' : preduser})
 
@@ -89,10 +87,31 @@ def view_results(request):
     # Submit prediction and show all
     username = str(request.user.username)
     data = {"dataset": PredResults.objects.filter(Q(username = username))}
-
-
     # data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data)
+
+@login_required
+def edit(request, id):
+    post = PredResults.objects.get(id = id)
+    context = {'post' : post}
+    return render(request, 'p_edit.html', context)
+
+@login_required
+def update(request, id):
+    # update도 id 하나만 하기 때문에
+    post = PredResults.objects.get(id=id)
+    post.ml_algorithm = request.POST['ml_algorithm']
+    post.ml_param = request.POST['ml_param']
+    post.save()
+    return redirect('predict:results') #redirect를 통해 'results' name url로 이동
+
+
+@csrf_exempt
+@login_required
+def delete(request, id):
+    post = PredResults.objects.get(id=id)
+    post.delete() # 성공 시
+    return redirect('predict:results') # 이 부분 redirection
 
 
 @login_required
@@ -112,6 +131,7 @@ def view_piechart(request) :
     setosa_count = setosa.count()
     versicolor_count = versicolor.count()
     virginica_count = virginica.count()
+
 
     return render(request, "pie_chart.html", {'setosa_count':setosa_count,
                                               'versicolor_count':versicolor_count,
