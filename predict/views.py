@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 # 공공api -> json -> 머신러닝
 
 # your project root => absolute path
-path = "/Users/yoohajun/PycharmProjects/iris_development"
+path = "/Users/choeseungho/Desktop/iris-development"
 
 @login_required
 def predict(request):
@@ -88,7 +88,23 @@ def view_results(request):
     username = str(request.user.username)
     data = {"dataset": PredResults.objects.filter(Q(username = username))}
     # data = {"dataset": PredResults.objects.all()}
-    return render(request, "results.html", data)
+    return render(request, "results.html", data) 
+
+@login_required
+def knn_results(request):
+    # Submit prediction and show all
+    username = str(request.user.username)
+    data = {"dataset": PredResults.objects.filter(Q(username = username)&Q(ml_algorithm__contains = "K-NeighborsClassifier"))}
+
+    return render(request, "knn_results.html", data) 
+
+@login_required
+def svc_results(request):
+    # Submit prediction and show all
+    username = str(request.user.username)
+    data = {"dataset": PredResults.objects.filter(Q(username = username)&Q(ml_algorithm__contains = "Support Vector Machine"))}
+
+    return render(request, "svc_results.html", data) 
 
 @login_required
 def edit(request, id):
