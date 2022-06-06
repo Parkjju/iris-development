@@ -1,39 +1,58 @@
-{% extends "base.html" %}
-
-{% block main %}
-    <div class="container pt-5">
-        <div class="row">
-
+{% extends "base.html" %} {% block main %}
+<div class="container pt-5">
+    <div class="row">
         <h1>Prediction Results</h1>
 
-            <table class="table">
-                <thead>
+        <table class="table">
+            <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Sepal length</th>
-                <th scope="col">Sepal width</th>
-                <th scope="col">Petal length</th>
-                <th scope="col">Petal width</th>
-                <th scope="col">Prediction</th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <b>ML Algorithm</b>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <li><a class="dropdown-item" href="/knn_results"><b>KNN</b></a></li>
-                          <li><a class="dropdown-item" href="/svc_results"><b>SVC</b></a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">ML Parameter</th>
-                <th scope="col">user name</th>
-                <th scope="col">Action</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Sepal length</th>
+                    <th scope="col">Sepal width</th>
+                    <th scope="col">Petal length</th>
+                    <th scope="col">Petal width</th>
+                    <th scope="col">Prediction</th>
+                    <th scope="col">
+                        <div class="dropdown">
+                            <button
+                                class="btn dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <b>ML Algorithm</b>
+                            </button>
+                            <ul
+                                class="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton1"
+                            >
+                                <li>
+                                    <a class="dropdown-item" href="/knn_results"
+                                        ><b>KNN</b></a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/svc_results"
+                                        ><b>SVC</b></a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/dt_results"
+                                        ><b>DT</b></a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th scope="col">ML Parameter</th>
+                    <th scope="col">user name</th>
+                    <th scope="col">Action</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% for data in dataset %}
-                    <tr>
+                <tr>
                     <th scope="row">{{ data.id }}</th>
                     <td>{{ data.sepal_length }}</td>
                     <td>{{ data.sepal_width }}</td>
@@ -43,46 +62,49 @@
                     <td>{{ data.ml_algorithm }}</td>
                     <td>{{ data.ml_param}}</td>
                     <td>{{ data.username}}</td>
-                    <td><a class="btn btn-sm btn-warning edit" id="{{ data.id }}">Edit</a> <a class="btn btn-sm btn-danger delete" id="{{ data.id }}">Delete</a></td>
-                    </tr>
+                    <td>
+                        <a
+                            class="btn btn-sm btn-warning edit"
+                            id="{{ data.id }}"
+                            >Edit</a
+                        >
+                        <a
+                            class="btn btn-sm btn-danger delete"
+                            id="{{ data.id }}"
+                            >Delete</a
+                        >
+                    </td>
+                </tr>
                 {% endfor %}
-
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
-
+</div>
 
 <script>
-
-// edit
-// click 시 edit 수행 p_result.html의 속성 "name"에서 값의 값을 호출합니다.
-$(document).on('click', '.edit', function(){
+    // edit
+    // click 시 edit 수행 p_result.html의 속성 "name"에서 값의 값을 호출합니다.
+    $(document).on('click', '.edit', function () {
         $id = $(this).attr('id');
-        window.location = "edit/" + $id;
+        window.location = 'edit/' + $id;
     }); // Go to the URL defined in the urls_crud.py
 
-// delete
-// 클릭하면 delete selector 실행
-$(document).on('click', '.delete', function(){
+    // delete
+    // 클릭하면 delete selector 실행
+    $(document).on('click', '.delete', function () {
         $id = $(this).attr('id'); // Get the id from the attribute “name”
         $.ajax({
-            url:  "delete/" + $id +'/' , // defined url
+            url: 'delete/' + $id + '/', // defined url
             type: 'POST',
             // data에는 csrf 토큰만 남겨놓은 것으로 delete를 수행
             data: {
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             },
-            success: function(){
-                alert("Deleted!");
+            success: function () {
+                alert('Deleted!');
                 location.reload();
-
-            } // 성공하면 read 함수 실행
+            }, // 성공하면 read 함수 실행
         });
     });
-
-
-
 </script>
 {% endblock %}
-

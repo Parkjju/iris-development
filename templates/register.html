@@ -92,11 +92,9 @@
 <script>
 
     $(document).on('submit', '#post-form',function(e){
-        {# submit -> 연쇄 다음 이벤트 묵살 -> ajax 실행 #}
         e.preventDefault();
         $.ajax({
             type:'POST',
-            {#app = predict, reference url namespace => account: signup #}
             url:'{% url "accounts:signup" %}',
             data:{
                 username:$('#username').val(),
@@ -109,9 +107,7 @@
             },
 
             success:function(json) {
-                {#form 보냄이 성공하면 적은 내용 사라짐#}
                 document.forms["post-form"].reset();
-                {#document.getElementById("un").innerHTML = json['username'];#}
                 alert('Sign up Success!');
 
             },

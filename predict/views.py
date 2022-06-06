@@ -10,12 +10,18 @@ from django.core import serializers
 
 from accounts.models import *
 from django.contrib.auth.decorators import login_required
-
+from django.conf import settings
+import os
 
 # 공공api -> json -> 머신러닝
 
 # your project root => absolute path
-path = "/Users/choeseungho/Desktop/iris-development"
+# path = "/Users/yoohajun/PycharmProjects/iris_development"
+# path = os.path.join(BASE_DIR)
+knnpath = os.path.join('knn_model.pkl')
+svcpath = os.path.join('svc_model.pkl')
+dtpath = os.path.join('dt_model.pkl')
+
 
 @login_required
 def predict(request):
@@ -42,20 +48,17 @@ def predict_chances(request, user_id):
         sepal_width = float(request.POST.get('sepal_width'))
         petal_length = float(request.POST.get('petal_length'))
         petal_width = float(request.POST.get('petal_width'))
-
         select_ml = str(request.POST.get('select_ml'))
         username = str(request.user.username)
 
         if select_ml == 'svc' :
-            model = pd.read_pickle(path + "/svc_model.pkl")
+            model = pd.read_pickle(svcpath)
             model_name = 'Support Vector Machine'
-
         elif select_ml == 'dt' :
-            model = pd.read_pickle(path + "/dt_model.pkl")
+            model = pd.read_pickle(dtpath)
             model_name = 'Decision Tree'
-
         else :
-            model = pd.read_pickle(path + "/knn_model.pkl")
+            model = pd.read_pickle(knnpath)
             model_name = 'K-NeighborsClassifier'
 
 
@@ -78,7 +81,7 @@ def predict_chances(request, user_id):
 
         return JsonResponse({'result': classification, 'ml_algorithm': model_name,'sepal_length': sepal_length,
                              'sepal_width': sepal_width, 'petal_length': petal_length, 'petal_width': petal_width, 'ml_param': ml_param},
-                            safe=False)
+                            safe=False,status=200)
         # json 형식으로 변수에 담아 client에 response해준다
 
 
@@ -89,6 +92,13 @@ def view_results(request):
     data = {"dataset": PredResults.objects.filter(Q(username = username))}
     # data = {"dataset": PredResults.objects.all()}
     return render(request, "results.html", data) 
+
+@login_required
+def dt_results(request):
+    username = str(request.user.username)
+    data = {"dataset": PredResults.objects.filter(Q(username = username)&Q(ml_algorithm__contains = "Decision Tree"))}
+
+    return render(request, "dt_results.html", data) 
 
 @login_required
 def knn_results(request):

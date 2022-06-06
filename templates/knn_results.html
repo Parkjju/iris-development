@@ -1,38 +1,57 @@
-{% extends "base.html" %}
-
-{% block main %}
-    <div class="container pt-5">
-        <div class="row">
-
+{% extends "base.html" %} {% block main %}
+<div class="container pt-5">
+    <div class="row">
         <h1>Prediction Results</h1>
 
-            <table class="table">
-                <thead>
+        <table class="table">
+            <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Sepal length</th>
-                <th scope="col">Sepal width</th>
-                <th scope="col">Petal length</th>
-                <th scope="col">Petal width</th>
-                <th scope="col">Prediction</th>
-                <th scope="col">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <b>KNN</b>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <li><a class="dropdown-item" href="/svc_results"><b>SVC</b></a></li>
-                          <li><a class="dropdown-item" href="/results"><b>ML Algorithm</b></a></li>
-                        </ul>
-                    </div>
-                </th>
-                <th scope="col">ML Parameter</th>
-                <th scope="col">user name</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Sepal length</th>
+                    <th scope="col">Sepal width</th>
+                    <th scope="col">Petal length</th>
+                    <th scope="col">Petal width</th>
+                    <th scope="col">Prediction</th>
+                    <th scope="col">
+                        <div class="dropdown">
+                            <button
+                                class="btn dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <b>KNN</b>
+                            </button>
+                            <ul
+                                class="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton1"
+                            >
+                                <li>
+                                    <a class="dropdown-item" href="/svc_results"
+                                        ><b>SVC</b></a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/dt_results"
+                                        ><b>DT</b></a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/results"
+                                        ><b>ML Algorithm</b></a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th scope="col">ML Parameter</th>
+                    <th scope="col">user name</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% for data in dataset %}
-                    <tr>
+                <tr>
                     <th scope="row">{{ data.id }}</th>
                     <td>{{ data.sepal_length }}</td>
                     <td>{{ data.sepal_width }}</td>
@@ -42,12 +61,23 @@
                     <td>{{ data.ml_algorithm }}</td>
                     <td>{{ data.ml_param}}</td>
                     <td>{{ data.username}}</td>
-                    </tr>
+                    <td>
+                        <a
+                            class="btn btn-sm btn-warning edit"
+                            id="{{ data.id }}"
+                            >Edit</a
+                        >
+                        <a
+                            class="btn btn-sm btn-danger delete"
+                            id="{{ data.id }}"
+                            >Delete</a
+                        >
+                    </td>
+                </tr>                    
+                </tr>
                 {% endfor %}
-
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
+</div>
 {% endblock %}
-
