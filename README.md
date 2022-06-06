@@ -38,6 +38,8 @@ conda install scikit-learn
 
 릴레이션 매핑 완료
 
+results page => edit, delete 버튼 추가
+
 ---------
 
 
