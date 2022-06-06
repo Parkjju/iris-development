@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "baseForLogin.html" %}
 
 {% block main %}
 
@@ -7,10 +7,6 @@
 {#prediction results pop screen 나타나는 창#}
 
 {#The Modal plugin is a dialog box/popup window that is displayed on top of the current page#}
-
-
-
-
 
 <div class="container">
 
@@ -96,7 +92,6 @@
 <script>
 
     $(document).on('submit', '#post-form',function(e){
-        {# submit -> 연쇄 다음 이벤트 묵살 -> ajax 실행 #}
         e.preventDefault();
         $.ajax({
             type:'POST',
@@ -112,10 +107,8 @@
             },
 
             success:function(json) {
-                {#form 보냄이 성공하면 적은 내용 사라짐#}
                 document.forms["post-form"].reset();
-                alert("회원가입 성공!")
-
+                alert('Sign up Success!');
 
             },
             error : function(xhr,errmsg,err) {
