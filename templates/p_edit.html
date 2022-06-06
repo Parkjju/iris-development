@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="container pt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+
+            <form>
+                {% csrf_token %}
+                <input type="hidden" id="post_id" value="{{ post.id }}"/>
+                <div class="form-group">
+                    <label>ML Algorithm</label>
+                    <input type="text" id="ml_algorithm" value="{{ post.ml_algorithm }}" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label>Parameter</label>
+                    <input type="text" id="ml_param" value="{{ post.ml_param }}" required="required"/>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="update" class="btn btn-sm btn-warning">Update</button>
+                </div>
+            </form>
+
+        </div>
+   </div>
+</div>
+
+<script>
+
+// update
+$('#update').on('click', function(){
+        $ml_algorithm = $('#ml_algorithm').val(); // Getting the values of the attributes
+        $ml_param = $('#ml_param').val();
+
+        if($ml_algorithm == "" || $ml_param == ""){ // Verification to avoid null values
+            alert("Please complete the required field"); //requirement
+        }else{
+            $id = $('#post_id').val(); // update를 하기 때문에 id가 필요함 (id from p_edit.html)
+            $.ajax({
+                url: '../update/' + $id +'/', // id별 링크
+                type: 'POST', //put
+                data: {
+                    ml_algorithm: $ml_algorithm,
+                    ml_param: $ml_param,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(){
+                    window.location = {% url "predict:results" %};
+                    alert('Updated!');
+                }
+            });
+        }
+    });
+
+
+</script>
+
+
+{% endblock %}

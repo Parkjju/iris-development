@@ -10,10 +10,12 @@
 <div id="my_dataviz"></div>
 </div>
 
+
 <div class = "legend">
   <svg id="legend" height=250 width=250></svg>
 </div>
 
+<!-- Create a div where the graph will take place -->
 
 <!-- Color scale -->
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -26,12 +28,12 @@
   // select the svg area
 var svg = d3.select("#legend")
 // Handmade legend
-svg.append("circle").attr("cx",100).attr("cy",130).attr("r", 6).style("fill", "#66c2a5")
-svg.append("circle").attr("cx",100).attr("cy",160).attr("r", 6).style("fill", "#fc8d62")
-svg.append("circle").attr("cx",100).attr("cy",190).attr("r", 6).style("fill", "#8da0cb")
-svg.append("text").attr("x", 120).attr("y", 130).text("Iris-setosa : {{ setosa_count }}").style("font-size", "15px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 120).attr("y", 160).text("Iris-versicolor : {{ versicolor_count}}").style("font-size", "15px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 120).attr("y", 190).text("Iris-virginica : {{ virginica_count }}").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("circle").attr("cx",30).attr("cy",130).attr("r", 6).style("fill", "#66c2a5")
+svg.append("circle").attr("cx",30).attr("cy",160).attr("r", 6).style("fill", "#fc8d62")
+svg.append("circle").attr("cx",30).attr("cy",190).attr("r", 6).style("fill", "#8da0cb")
+svg.append("text").attr("x", 50).attr("y", 130).text("Iris-setosa : {{ setosa_count }}").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 50).attr("y", 160).text("Iris-versicolor : {{ versicolor_count}}").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 50).attr("y", 190).text("Iris-virginica : {{ virginica_count }}").style("font-size", "15px").attr("alignment-baseline","middle")
 
 // set the dimensions and margins of the graph
 var width = 450
@@ -93,4 +95,5 @@ svg
 
 
 </script>
+
 {% endblock %}

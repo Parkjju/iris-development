@@ -14,6 +14,7 @@ from django.contrib import messages
 # from .forms import *
 # Create your views here.
 
+
 def login(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -28,9 +29,11 @@ def login(request):
     else:
         return render(request, 'login.html')
 
+
 def logout(request):
     auth.logout(request)
     return redirect('accounts:login')
+
 
 def signup(request):
     if request.method == "POST":
@@ -45,10 +48,10 @@ def signup(request):
 
     return render(request, 'register.html')
 
+
 # 로그아웃 상태일 때 로그인 페이지로 리다이렉트 하고 싶음
 @login_required
 def profile(request):
-    # if request.user.is_authenticated :
     PredUser.objects.get_or_create(user = request.user)
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -69,5 +72,3 @@ def profile(request):
     }
     return render(request, 'profile.html', context)
 
-    # else:
-    #     return redirect('accounts:login')
