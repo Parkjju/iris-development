@@ -11,8 +11,9 @@ class PredResults(models.Model):
     petal_length = models.FloatField()
     petal_width = models.FloatField()
     classification = models.CharField(max_length=45)
+    ml_param = models.TextField(default = "default")
     ml_algorithm = models.CharField(max_length=60, default= "default")
-    ml_param = models.CharField(max_length=127, default= "default")
+    # ml_param = models.CharField(max_length=127, default= "default")
 
     username = models.CharField(max_length=60, default= "admin")
     user = models.ForeignKey(PredUser, on_delete=models.CASCADE)
