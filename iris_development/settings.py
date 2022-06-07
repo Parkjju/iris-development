@@ -170,3 +170,7 @@ LOGOUT_REDIRECT_URL = '/'
 SITE_ID = 1
 
 django_heroku.settings(locals())
+
+
+SESSION_COOKIE_AGE = 600
+SESSION_SAVE_EVERY_REQUEST = True
