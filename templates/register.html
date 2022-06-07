@@ -107,8 +107,10 @@
             },
 
             success:function(json) {
-                document.forms["post-form"].reset();
-                alert('Sign up Success!');
+                // document.forms["post-form"].reset();
+                location.href="/predict"
+                // alert('Sign up Success!');
+                
 
             },
             error : function(xhr,errmsg,err) {
