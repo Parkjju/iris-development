@@ -44,7 +44,7 @@ def signup(request):
             auth.login(request, new_user)
             # 홈 리다이렉션
 
-            return redirect('accounts:login')
+            return redirect('predict:prediction_page')
 
     return render(request, 'register.html')
 
