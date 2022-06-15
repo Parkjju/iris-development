@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="container pt-5">
+        <div class="row">
+
+        <h1>Prediction Results (Admin) </h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Sepal length</th>
+                <th scope="col">Sepal width</th>
+                <th scope="col">Petal length</th>
+                <th scope="col">Petal width</th>
+                <th scope="col">Prediction</th>
+                <th scope="col">ML Algorithm</th>
+                <th scope="col">ML Parameter</th>
+                <th scope="col">user name</th>
+                <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for data in dataset %}
+                    <tr>
+                    <th scope="row">{{ data.id }}</th>
+                    <td>{{ data.sepal_length }}</td>
+                    <td>{{ data.sepal_width }}</td>
+                    <td>{{ data.petal_length }}</td>
+                    <td>{{ data.petal_width }}</td>
+                    <td>{{ data.classification }}</td>
+                    <td>{{ data.ml_algorithm }}</td>
+                    <td>{{ data.ml_param}}</td>
+                    <td>{{ data.username}}</td>
+                    <td><a class="btn btn-sm btn-warning edit" id="{{ data.id }}">Edit</a> <a class="btn btn-sm btn-danger delete" id="{{ data.id }}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {% if dataset.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?p={{dataset.previous_page_number }}">이전으로</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">이전으로</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-item">
+                        <a class="page-link" href="#">{{dataset.number}}/{{dataset.paginator.num_pages}}</a>
+                    </li>
+                    {% if dataset.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?p={{dataset.next_page_number }}">다음으로</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">다음으로</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+<div class="container pt-5">
+<div class="row">
+    {# column wrap grid  #}
+    <div class="col-sm">
+
+        <div class = 'header_graph'>
+            <h3> Barchart with Total data </h3>
+        </div>
+<!-- Add 2 buttons -->
+        <button onclick="update(data1)">Classification count</button>
+        <button onclick="update(data2)">Algorithm count</button>
+
+        <div id="my_dataviz"></div>
+
+    </div>
+
+
+    <div class="col-sm">
+
+        <div class = 'header_graph'>
+            <h3> prediction counting by username </h3>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+            <th scope="col">username</th>
+            <th scope="col">prediction count #</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for pred in predcounts %}
+            <tr>
+            <th scope="row">{{ pred.user }}</th>
+            <th scope="row">{{ pred.pred_count }}</th>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+
+    </div>
+
+</div>
+</div>
+
+
+<script>
+
+// edit
+// click 시 edit 수행 p_result.html의 속성 "name"에서 값의 값을 호출합니다.
+$(document).on('click', '.edit', function(){
+        $id = $(this).attr('id');
+        window.location = "edit/" + $id;
+    }); // Go to the URL defined in the urls_crud.py
+
+// delete
+// 클릭하면 delete selector 실행
+
+$(document).on('click', '.delete', function(){
+        $id = $(this).attr('id'); // Get the id from the attribute “name”
+        $.ajax({
+            url:  "delete/" + $id +'/' , // defined url
+            type: 'POST',
+            // data에는 csrf 토큰만 남겨놓은 것으로 delete를 수행
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(){
+                alert("Deleted!");
+                location.reload();
+
+            } // 성공하면 read 함수 실행
+        });
+    });
+
+</script>
+
+<script>
+
+// create 2 data_set
+var data1 = [
+   {group: "setosa", value: {{setosa_count}} },
+   {group: "versicolor", value: {{versicolor_count}}},
+   {group: "virginica", value: {{virginica_count}}}
+];
+
+var data2 = [
+   {group: "SupportVector", value: {{svc_count}}},
+   {group: "KNN", value: {{knn_count}}},
+   {group: "DecisionTree", value: {{dt_count}}}
+];
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Initialize the X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .padding(0.2);
+var xAxis = svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+
+// Initialize the Y axis
+var y = d3.scaleLinear()
+  .range([ height, 0]);
+var yAxis = svg.append("g")
+  .attr("class", "myYaxis")
+
+
+// A function that create / update the plot for a given variable:
+function update(data) {
+
+  // Update the X axis
+  x.domain(data.map(function(d) { return d.group; }))
+  xAxis.call(d3.axisBottom(x))
+
+  // Update the Y axis
+  y.domain([0, d3.max(data, function(d) { return d.value }) ]);
+  yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+  // Create the u variable
+  var u = svg.selectAll("rect")
+    .data(data)
+
+  u
+    .enter()
+    .append("rect") // Add a new rect for each new elements
+    .merge(u) // get the already existing elements as well
+    .transition() // and apply changes to all of them
+    .duration(1000)
+      .attr("x", function(d) { return x(d.group); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", "#69b3a2")
+
+  // If less group in the new dataset, I delete the ones not in use anymore
+  u
+    .exit()
+    .remove()
+}
+
+// Initialize the plot with the first dataset
+update(data1)
+
+</script>
+
+
+{% endblock %}
+

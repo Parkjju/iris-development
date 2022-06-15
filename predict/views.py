@@ -9,13 +9,14 @@ from .models import *
 from django.core import serializers
 
 from accounts.models import *
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
+from django.core.paginator import Paginator
 
 # 공공api -> json -> 머신러닝
 
 # your project root => absolute path
-path = "/Users/choeseungho/Desktop/iris-development"
+path = "/Users/yoohajun/PycharmProjects/iris_development"
 
 @login_required
 def predict(request):
@@ -28,7 +29,8 @@ def predict(request):
     # 위의 객체를 predict.html에 렌더링
     return render(request, 'predict.html', {'preduser' : preduser})
 
-
+# request => django.auth.id
+# user id => profile id
 @login_required
 def predict_chances(request, user_id):
 
@@ -65,10 +67,6 @@ def predict_chances(request, user_id):
         # Make prediction
         result = model.predict(input_data)
 
-        # print(metrics.accuracy_score(model._y, result))
-        # score = model.score(input_data, result)
-        # print(score)
-
         classification = result[0] # result의 0번째 인덱스에 저장이 되어 있음
 
         # db에 예측한 내용이 객체화되서 저장될 수 있게함
@@ -86,25 +84,69 @@ def predict_chances(request, user_id):
 def view_results(request):
     # Submit prediction and show all
     username = str(request.user.username)
-    data = {"dataset": PredResults.objects.filter(Q(username = username))}
+    dataset = PredResults.objects.filter(Q(username = username))
     # data = {"dataset": PredResults.objects.all()}
-    return render(request, "results.html", data) 
+    data = PredResults.objects.filter(Q(username = username))
 
+    setosa = data.filter(Q(classification__contains= 'setosa'))
+    versicolor = data.filter(Q(classification__contains= 'versicolor'))
+    virginica = data.filter(Q(classification__contains= 'virginica'))
+
+    setosa_count = setosa.count()
+    versicolor_count = versicolor.count()
+    virginica_count = virginica.count()
+
+    return render(request, "results.html", {"dataset" : dataset,
+                                            'setosa_count': setosa_count,
+                                            'versicolor_count': versicolor_count,
+                                            'virginica_count': virginica_count
+                                            })
+# admin dashboard
 @login_required
-def knn_results(request):
-    # Submit prediction and show all
-    username = str(request.user.username)
-    data = {"dataset": PredResults.objects.filter(Q(username = username)&Q(ml_algorithm__contains = "K-NeighborsClassifier"))}
+@permission_required('is_superuser')
+def admin_results(request):
 
-    return render(request, "knn_results.html", data) 
+    # admin dashboard table with paginator
+    dataset_all = PredResults.objects.all().order_by('user_id')
+    page = int(request.GET.get('p', 1)) # 없으면 1로 지정
+    paginator = Paginator(dataset_all, 5) # 한 페이지 당 몇개 씩 보여줄 지 지정
+    dataset = paginator.get_page(page)
 
-@login_required
-def svc_results(request):
-    # Submit prediction and show all
-    username = str(request.user.username)
-    data = {"dataset": PredResults.objects.filter(Q(username = username)&Q(ml_algorithm__contains = "Support Vector Machine"))}
+    # barchart
+    data = PredResults.objects
 
-    return render(request, "svc_results.html", data) 
+    setosa = data.filter(Q(classification__contains= 'setosa'))
+    versicolor = data.filter(Q(classification__contains= 'versicolor'))
+    virginica = data.filter(Q(classification__contains= 'virginica'))
+
+    setosa_count = setosa.count()
+    versicolor_count = versicolor.count()
+    virginica_count = virginica.count()
+
+    svc = data.filter(Q(ml_algorithm__contains= 'Support Vector Machine'))
+    knn = data.filter(Q(ml_algorithm__contains= 'K-NeighborsClassifier'))
+    dt = data.filter(Q(ml_algorithm__contains= 'Decision Tree'))
+
+    svc_count = svc.count()
+    knn_count = knn.count()
+    dt_count = dt.count()
+
+    # count by user name
+    predcounts = PredUser.objects.all().annotate(pred_count = Count('predresults'))
+
+
+
+    return render(request, "admin_results.html", {'setosa_count':setosa_count,
+                                             'versicolor_count':versicolor_count,
+                                             'virginica_count':virginica_count,
+                                              'svc_count': svc_count,
+                                              'knn_count': knn_count,
+                                              'dt_count': dt_count,
+                                             "dataset": dataset,
+                                              "predcounts" : predcounts
+                                             })
+
+
 
 @login_required
 def edit(request, id):
@@ -130,28 +172,24 @@ def delete(request, id):
     return redirect('predict:results') # 이 부분 redirection
 
 
-@login_required
-def view_piechart(request) :
-
-    username = str(request.user.username)
-    data = PredResults.objects.filter(Q(username = username))
-
-    setosa = data.filter(Q(classification__contains= 'setosa'))
-    versicolor = data.filter(Q(classification__contains= 'versicolor'))
-    virginica = data.filter(Q(classification__contains= 'virginica'))
-
-    # setosa = PredResults.objects.filter(Q(classification__contains= 'setosa'))
-    # versicolor = PredResults.objects.filter(Q(classification__contains= 'versicolor'))
-    # virginica = PredResults.objects.filter(Q(classification__contains= 'virginica'))
-
-    setosa_count = setosa.count()
-    versicolor_count = versicolor.count()
-    virginica_count = virginica.count()
-
-
-    return render(request, "pie_chart.html", {'setosa_count':setosa_count,
-                                              'versicolor_count':versicolor_count,
-                                              'virginica_count':virginica_count})
+# @login_required
+# def view_piechart(request) :
+#
+#     username = str(request.user.username)
+#     data = PredResults.objects.filter(Q(username = username))
+#
+#     setosa = data.filter(Q(classification__contains= 'setosa'))
+#     versicolor = data.filter(Q(classification__contains= 'versicolor'))
+#     virginica = data.filter(Q(classification__contains= 'virginica'))
+#
+#     setosa_count = setosa.count()
+#     versicolor_count = versicolor.count()
+#     virginica_count = virginica.count()
+#
+#
+#     return render(request, "pie_chart.html", {'setosa_count':setosa_count,
+#                                               'versicolor_count':versicolor_count,
+#                                               'virginica_count':virginica_count})
 
 
 @login_required
