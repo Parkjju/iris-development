@@ -135,23 +135,11 @@ def admin_results(request):
     # count by user name
     predcounts = PredUser.objects.all().annotate(pred_count = Count('predresults'))
 
-
-    # for pred in predcounts :
-    #     pred.user
-    #     pred.pred_count
-
-    # data2 = [
-    #     {group: "SupportVector", value: {{svc_count}}},
-    #     {group: "KNN", value: {{knn_count}}},
-    #     {group: "DecisionTree", value: {{dt_count}}}
-    # ];
-
     # Preduser가 참조하는 User의 username을 가져옴 (일종의 조인)
     data_dict = []
     for pred in predcounts:
         item = {"group": pred.user.username, "value": pred.pred_count}
         data_dict.append(item)
-
 
     # print(data_dict)
 
@@ -168,22 +156,6 @@ def admin_results(request):
                                               "data_dict":data_dict
                                              })
 
-
-# # admin dashboard
-# def admin_json(request):
-#
-#     predcounts = PredUser.objects.all().annotate(pred_count = Count('predresults'))
-#
-#     data_json = list()
-#     for pred in predcounts:
-#         item = {"group": pred.user, "value": pred.pred_count}
-#         data_json.append(item)
-#
-#     # seri_data = serializers.serialize('json', predcounts)
-#
-#     print(data_json)
-#
-#     return JsonResponse({"data_json": data_json}, safe=False)
 
 
 @login_required
@@ -208,26 +180,6 @@ def delete(request, id):
     post = PredResults.objects.get(id=id)
     post.delete() # 성공 시
     return redirect('predict:results') # 이 부분 redirection
-
-
-# @login_required
-# def view_piechart(request) :
-#
-#     username = str(request.user.username)
-#     data = PredResults.objects.filter(Q(username = username))
-#
-#     setosa = data.filter(Q(classification__contains= 'setosa'))
-#     versicolor = data.filter(Q(classification__contains= 'versicolor'))
-#     virginica = data.filter(Q(classification__contains= 'virginica'))
-#
-#     setosa_count = setosa.count()
-#     versicolor_count = versicolor.count()
-#     virginica_count = virginica.count()
-#
-#
-#     return render(request, "pie_chart.html", {'setosa_count':setosa_count,
-#                                               'versicolor_count':versicolor_count,
-#                                               'virginica_count':virginica_count})
 
 
 @login_required
