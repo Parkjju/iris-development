@@ -106,7 +106,7 @@
             <tbody>
             {% for pred in predcounts %}
             <tr>
-            <th scope="row">{{ pred.user }}</th>
+            <th scope="row">{{ pred.user.username }}</th>
             <th scope="row">{{ pred.pred_count }}</th>
             </tr>
             </tbody>
@@ -118,6 +118,7 @@
 </div>
 </div>
 
+{#{{data_dict}}#}
 
 <script>
 
@@ -149,7 +150,22 @@ $(document).on('click', '.delete', function(){
     });
 
 </script>
-
+{##}
+{#<script>#}
+{##}
+{#var data_dict = "{{data_dict}}";#}
+{#console.log(data_dict);#}
+{#console.log(typeof data_dict);#}
+{##}
+{#{% for userdata in data_dict %}#}
+{##}
+{#console.log({{userdata.keys}},{{userdata.values}});#}
+{##}
+{#{% endfor %}#}
+{##}
+{##}
+{##}
+{#</script>#}
 <script>
 
 // create 2 data_set

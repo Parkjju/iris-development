@@ -15,6 +15,7 @@ urlpatterns = [
     path('results/edit/update/<int:id>/', views.update, name='update'),
 
     path('admin_results/', views.admin_results, name='admin_results'),
+    # path('admin_json/', views.admin_json, name='admin_json'),
 
     path('results/delete/<int:id>/', views.delete, name='delete'),
 

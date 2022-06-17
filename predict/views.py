@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from django.db.models import Q, Count
 from .models import *
 from django.core import serializers
+import json
 
 from accounts.models import *
 from django.contrib.auth.decorators import login_required, permission_required
@@ -135,6 +136,26 @@ def admin_results(request):
     predcounts = PredUser.objects.all().annotate(pred_count = Count('predresults'))
 
 
+    # for pred in predcounts :
+    #     pred.user
+    #     pred.pred_count
+
+    # data2 = [
+    #     {group: "SupportVector", value: {{svc_count}}},
+    #     {group: "KNN", value: {{knn_count}}},
+    #     {group: "DecisionTree", value: {{dt_count}}}
+    # ];
+
+    # Preduser가 참조하는 User의 username을 가져옴 (일종의 조인)
+    data_dict = []
+    for pred in predcounts:
+        item = {"group": pred.user.username, "value": pred.pred_count}
+        data_dict.append(item)
+
+
+    # print(data_dict)
+
+    # jsonData = json.dumps(data) # error : Object of type User is not JSON serializable
 
     return render(request, "admin_results.html", {'setosa_count':setosa_count,
                                              'versicolor_count':versicolor_count,
@@ -143,9 +164,26 @@ def admin_results(request):
                                               'knn_count': knn_count,
                                               'dt_count': dt_count,
                                              "dataset": dataset,
-                                              "predcounts" : predcounts
+                                              "predcounts" : predcounts,
+                                              "data_dict":data_dict
                                              })
 
+
+# # admin dashboard
+# def admin_json(request):
+#
+#     predcounts = PredUser.objects.all().annotate(pred_count = Count('predresults'))
+#
+#     data_json = list()
+#     for pred in predcounts:
+#         item = {"group": pred.user, "value": pred.pred_count}
+#         data_json.append(item)
+#
+#     # seri_data = serializers.serialize('json', predcounts)
+#
+#     print(data_json)
+#
+#     return JsonResponse({"data_json": data_json}, safe=False)
 
 
 @login_required
