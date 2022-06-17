@@ -40,6 +40,9 @@ conda install scikit-learn
 
 results page => edit, delete 버튼 추가
 
+### 6.15
+관리자(superuser) 대시보드 페이지 제작
+
 ---------
 
 
