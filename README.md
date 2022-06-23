@@ -1,10 +1,10 @@
 ## 프로젝트 소개 - 내 꽃을 찾아줘 🌸
 
-## Iris Github
+### Iris Github
 
 장고를 이용한 **붖꽃 예측 웹 어플리케이션을 제작합니다.**
 
-## 필요 스택
+### 필요 스택
 
 -   iris는 정말 머신러닝 이용하기 간단한 좋은 데이터셋
 -   머신러닝 알고리즘 (필요한 알고리즘만)
@@ -18,21 +18,19 @@
 
 ### **데이터셋 : IRIS 데이터 셋**
 
-![Untitled](./image/Untitled.png)
-
 `아이리스 데이터 셋`**이란?**
 
 -   데이터 분석 입문으로 사용하기 좋은 데이터 셋
 -   3가지 종류의 붖꽃 종류를 꽃의 길이를 이용해 예측할 수 있는 데이터 셋 (setosa, versicolur, virginica)
 
-## Reference
+### Reference
 
 1. [붖꽃 예측 클론 코딩](https://www.youtube.com/watch?v=6aSf0VM24DM)
 2. [D3.js](https://www.youtube.com/watch?v=TOJ9yjvlapY&t=247s)
 
 추후 구현 기능에 따라 README 내용이 추가될 예정입니다 :)
 
-## 프로젝트 세팅 절차
+### 프로젝트 세팅 절차
 
 ```text
 주의 : 반드시 iris폴더 아래에 secrets.json 파일을 생성해야합니다.
@@ -43,6 +41,7 @@
     "SECRET_KEY": "배포해드린 secrets.json 파일 키값"
 }
 ```
+
 ## Progress
 
 ### 5.15 
