@@ -2,7 +2,51 @@
 
 ## Iris Github
 
-### 5.15 -> iris initial commit
+장고를 이용한 **붖꽃 예측 웹 어플리케이션을 제작합니다.**
+
+## 필요 스택
+
+-   iris는 정말 머신러닝 이용하기 간단한 좋은 데이터셋
+-   머신러닝 알고리즘 (필요한 알고리즘만)
+-   Django
+-   d3.js 데이터 시각화 라이브러리
+    -   d3 라이브러리로 할 수 있는 시각화 종류
+    -   [https://hamait.tistory.com/242](https://hamait.tistory.com/242)
+    -   [https://hamait.tistory.com/335?category=140423](https://hamait.tistory.com/335?category=140423)
+-   부트스트랩
+-   백엔드에 초점을 맞춘 프로젝트입니다.
+
+### **데이터셋 : IRIS 데이터 셋**
+
+![Untitled](./image/Untitled.png)
+
+`아이리스 데이터 셋`**이란?**
+
+-   데이터 분석 입문으로 사용하기 좋은 데이터 셋
+-   3가지 종류의 붖꽃 종류를 꽃의 길이를 이용해 예측할 수 있는 데이터 셋 (setosa, versicolur, virginica)
+
+## Reference
+
+1. [붖꽃 예측 클론 코딩](https://www.youtube.com/watch?v=6aSf0VM24DM)
+2. [D3.js](https://www.youtube.com/watch?v=TOJ9yjvlapY&t=247s)
+
+추후 구현 기능에 따라 README 내용이 추가될 예정입니다 :)
+
+## 프로젝트 세팅 절차
+
+```text
+주의 : 반드시 iris폴더 아래에 secrets.json 파일을 생성해야합니다.
+```
+
+```json
+{
+    "SECRET_KEY": "배포해드린 secrets.json 파일 키값"
+}
+```
+## Progress
+
+### 5.15 
+-> iris initial commit
 
 __requirement__
 
@@ -45,47 +89,5 @@ results page => edit, delete 버튼 추가
 
 ---------
 
-
-장고를 이용한 **붖꽃 예측 웹 어플리케이션을 제작합니다.**
-
-## 필요 스택
-
--   iris는 정말 머신러닝 이용하기 간단한 좋은 데이터셋
--   머신러닝 알고리즘 (필요한 알고리즘만)
--   Django
--   d3.js 데이터 시각화 라이브러리
-    -   d3 라이브러리로 할 수 있는 시각화 종류
-    -   [https://hamait.tistory.com/242](https://hamait.tistory.com/242)
-    -   [https://hamait.tistory.com/335?category=140423](https://hamait.tistory.com/335?category=140423)
--   부트스트랩
--   백엔드에 초점을 맞춘 프로젝트입니다.
-
-### **데이터셋 : IRIS 데이터 셋**
-
-![Untitled](./image/Untitled.png)
-
-`아이리스 데이터 셋`**이란?**
-
--   데이터 분석 입문으로 사용하기 좋은 데이터 셋
--   3가지 종류의 붖꽃 종류를 꽃의 길이를 이용해 예측할 수 있는 데이터 셋 (setosa, versicolur, virginica)
-
-## Reference
-
-1. [붖꽃 예측 클론 코딩](https://www.youtube.com/watch?v=6aSf0VM24DM)
-2. [D3.js](https://www.youtube.com/watch?v=TOJ9yjvlapY&t=247s)
-
-추후 구현 기능에 따라 README 내용이 추가될 예정입니다 :)
-
-## 프로젝트 세팅 절차
-
-```text
-주의 : 반드시 iris폴더 아래에 secrets.json 파일을 생성해야합니다.
-```
-
-```json
-{
-    "SECRET_KEY": "배포해드린 secrets.json 파일 키값"
-}
-```
-
-
+## Report
+[Report](https://innovative-tortoise-4fd.notion.site/Final-Report-555dbf8342d1487cabecf09e79dd8fda)
