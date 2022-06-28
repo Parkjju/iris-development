@@ -141,9 +141,14 @@ def admin_results(request):
         item = {"group": pred.user.username, "value": pred.pred_count}
         data_dict.append(item)
 
+    json_dict = dict()
+    json_dict['data'] = data_dict
     # print(data_dict)
 
-    # jsonData = json.dumps(data) # error : Object of type User is not JSON serializable
+    temp = json.dumps(json_dict) # error : Object of type User is not JSON serializable
+    jsonData = json.dumps(temp)
+    print(jsonData)
+    print(type(jsonData))
 
     return render(request, "admin_results.html", {'setosa_count':setosa_count,
                                              'versicolor_count':versicolor_count,
@@ -153,7 +158,8 @@ def admin_results(request):
                                               'dt_count': dt_count,
                                              "dataset": dataset,
                                               "predcounts" : predcounts,
-                                              "data_dict":data_dict
+                                              "data_dict": data_dict,
+                                              "jsonData" : jsonData
                                              })
 
 

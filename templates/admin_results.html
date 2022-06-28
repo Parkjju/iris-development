@@ -4,6 +4,8 @@
     <div class="container pt-5">
         <div class="row">
 
+{#        {{ data_dict }}#}
+
         <h1>Prediction Results (Admin) </h1>
 
             <table class="table">
@@ -86,6 +88,12 @@
 
         <div id="my_dataviz"></div>
 
+        <div class = 'header_graph'>
+            <h3> Barchart : counting pred number by username </h3>
+        </div>
+
+        <div id="chart"></div>
+
     </div>
 
 
@@ -95,30 +103,29 @@
             <h3> prediction counting by username </h3>
         </div>
 
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
-            <tr>
-            <th scope="col">username</th>
-            <th scope="col">prediction count #</th>
+            <tr class = "d-flex">
+                <th class = "col-8" scope="col">username</th>
+                <th class = "col-4" scope="col">prediction count #</th>
             </tr>
             </thead>
 
             <tbody>
             {% for pred in predcounts %}
-            <tr>
-            <th scope="row">{{ pred.user.username }}</th>
-            <th scope="row">{{ pred.pred_count }}</th>
+            <tr class = "d-flex">
+                <th class = "col-8" scope="row">{{ pred.user.username }}</th>
+                <th class = "col-4" scope="row">{{ pred.pred_count }}</th>
             </tr>
             </tbody>
             {% endfor %}
+
         </table>
 
     </div>
 
 </div>
-</div>
 
-{#{{data_dict}}#}
 
 <script>
 
@@ -150,22 +157,8 @@ $(document).on('click', '.delete', function(){
     });
 
 </script>
-{##}
-{#<script>#}
-{##}
-{#var data_dict = "{{data_dict}}";#}
-{#console.log(data_dict);#}
-{#console.log(typeof data_dict);#}
-{##}
-{#{% for userdata in data_dict %}#}
-{##}
-{#console.log({{userdata.keys}},{{userdata.values}});#}
-{##}
-{#{% endfor %}#}
-{##}
-{##}
-{##}
-{#</script>#}
+
+
 <script>
 
 // create 2 data_set
@@ -244,6 +237,74 @@ function update(data) {
 
 // Initialize the plot with the first dataset
 update(data1)
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        const json_data = JSON.parse({{jsonData|safe}});
+        console.log(json_data);
+        const vis_data = json_data['data'];
+        console.log(vis_data);
+        console.log(typeof (vis_data));
+
+        // create 2 data_set
+        var data1 = vis_data
+
+        // set the dimensions and margins of the graph
+        var margin = {top: 30, right: 30, bottom: 70, left: 60},
+            width = 560 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3.select("#chart")
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+
+        // X axis
+        var x = d3.scaleBand()
+          .range([ 0, width ])
+          .domain(data1.map(function(d) { return d.group; }))
+          .padding(0.2);
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x))
+
+        // Add Y axis
+        var y = d3.scaleLinear()
+          .domain([0, 20])
+          .range([ height, 0]);
+        svg.append("g")
+          .attr("class", "myYaxis")
+          .call(d3.axisLeft(y));
+
+        // A function that create / update the plot for a given variable:
+        function update(data) {
+
+          var u = svg.selectAll("rect")
+            .data(data)
+
+          u .enter()
+            .append("rect")
+            .merge(u)
+            .transition()
+            .duration(1000)
+              .attr("x", function(d) { return x(d.group); })
+              .attr("y", function(d) { return y(d.value); })
+              .attr("width", x.bandwidth())
+              .attr("height", function(d) { return height - y(d.value); })
+              .attr("fill", "#69b3a2")
+        }
+
+        // Initialize the plot with the first dataset
+        update(data1)
+
+    })
+
 
 </script>
 
