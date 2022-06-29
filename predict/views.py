@@ -201,4 +201,3 @@ def view_boxplot(request) :
 @login_required
 def view_barchart(request) :
     return render(request, "bar_chart.html")
-
