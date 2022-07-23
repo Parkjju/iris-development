@@ -83,7 +83,7 @@ conda install scikit-learn
 
 results page => edit, delete 버튼 추가
 
-### 6.15
+### 6.15 ~ 22
 JSON을 이용한 관리자(superuser) 대시보드 페이지 제작 완료
 
 
